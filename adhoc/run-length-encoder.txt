@@ -1,0 +1,183 @@
+Run Length Encoder
+
+
+
+Problem Statement:
+
+
+
+Compress a string (only has alphabet characters), with basic encoding, where you simply count the number of repeated characters.
+
+
+
+e.g.
+
+Input: "AAAAA" 
+
+Output: "5A"
+
+
+
+Input: "BAAAB"
+
+Output: "B3AB"
+
+
+
+Input: "ABAB"
+
+Output: "ABAB" [We are not concerned about characters repeating in groups]
+
+
+
+Input/Output Format For The Function:
+
+
+
+Input format:
+
+
+
+There is only one argument named strInput denoting the input string.
+
+
+
+Output format:
+
+
+
+Return the compressed string.
+
+
+
+Input/Output Format For The Custom Input:
+
+
+
+Input Format:
+
+
+
+A line consisting of alphabetic characters only.
+
+
+
+Output Format:
+
+
+
+A string consisting of alphanumeric characters will be printed.
+
+
+
+Constraints:
+
+String consists of alphabetic characters only
+1 <= strInput <= 10^5
+
+
+Sample Test Cases:
+
+
+
+Sample Test Case 1:
+
+
+
+Sample Input 1:
+
+
+
+For the function:
+
+
+
+strInput = AAAAA
+
+
+
+For the custom input:
+
+
+
+AAAAA
+
+
+
+Sample Output 1:
+
+
+
+For the function:
+
+
+
+ret = 5A
+
+
+
+For the custom output:
+
+
+
+5A
+
+
+
+Explanation 1:
+
+
+
+Character “A” is repeated 5 times consecutively.
+
+
+
+Sample Test Case 2:
+
+
+
+Sample Input 2:
+
+
+
+For the function:
+
+
+
+strInput = ABaaaBCC
+
+
+
+For the custom input:
+
+
+
+ABaaaBCC
+
+
+
+Sample Output 2:
+
+ 
+
+For the function:
+
+
+
+ret = AB3aB2C
+
+
+
+For the custom output:
+
+
+
+AB3aB2C
+
+
+
+Explanation 2:
+
+
+
+Character “a” is repeated 3 times consecutively, character “C” is repeated 2 times consecutively.

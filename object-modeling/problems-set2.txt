@@ -1,0 +1,220 @@
+Chess (Free Form)
+------------------------------------------
+Design/Model the game of Chess
+
+
+
+What that typically means: Design a library that implements Chess. Developers using the library (i.e. your main() method) will initialize the chess-board with pieces and players, and call makeMove() function on the relevant entities. Design it such that the developer cannot make an invalid move and the library lets them know if a given move wins the game.
+
+
+
+Deliverables:
+
+
+
+1. A set of classes, showing relationships with each other where appropriate. Classes should show state and methods. Use any convenient notation.
+
+2. Main() method, showing how you'll initialize your system and use it.
+
+3. (Optional, only if it helps bolster understanding): A flow chart of main use-cases and a state-diagram.
+
+
+
+Please put everything in one single file and upload it. It could be a Doc file, online GDoc (converted to PDF), a powerpoint, a spreadsheet, a Visio file, whatever. Just have it all in there.
+
+
+
+Possible directions for further questions:
+
+
+
+1. What assumptions are you making, and how will your design change, if those assumptions change? 
+
+2. If you provide this library as a service, how will you scale it?
+
+
+Remote Control Fan (Free Form)
+------------------------------------------
+Design an interaction system between a fan and its remote control.
+
+
+
+What that typically means: 
+
+
+
+Imagine you are hired by a fan manufacturing company, to design the interaction between a table-fan and its remote control. Assume four simplistic buttons on the remote - Power, Speed, Oscillation, Timer. 
+
+
+
+Power button: toggles the on/off state of the fan 
+Speed button: each time you press it increases the speed of the fan until some maximum, after which the speed becomes 0 (i.e. power off) 
+Oscillation button: toggles the on/off oscillation 
+Timer button: each time you press, it increases the hours until some max
+
+
+Think about what happens if someone presses the buttons too fast?
+
+
+
+Deliverables:
+
+
+
+1. A set of classes, showing relationships with each other where appropriate. Classes should show state and methods. Use any convenient notation.
+
+2. Main() method, showing how you'll initialize your system and use it.
+
+3. (Optional, only if it helps bolster understanding): A flow chart of main use-cases and a state-diagram.
+
+
+
+Please put everything in one single file and upload it. It could be a Doc file, online GDoc (converted to PDF), a powerpoint, a spreadsheet, a Visio file, whatever. Just have it all in there.
+
+
+
+Possible directions for further questions:
+
+
+
+1. What assumptions are you making, and how will your design change, if those assumptions change? 
+
+2. If you provide this library as a service, how will you scale it?
+
+Coffee Maker (Free Form)
+------------------------------------------
+What they say: Design a Coffee Maker
+
+
+
+What they mean: Design the software that controls a simple coffee maker
+
+
+
+Specifications: Assume a basic coffee machine and have the design extendible for fancy features
+
+
+
+
+
+Note: This is a classic problem in OOD. There are plenty of resources online. 
+
+
+
+Vending Machine (Free Form)
+------------------------------------------
+What they say: Design a Vending machine
+
+
+
+What they mean: Design software that controls a Vending machine
+
+
+
+
+
+Note: This is a classic question. 
+
+
+
+Black Jack (Free Form)
+------------------------------------------
+What they say: Design BlackJack
+
+
+
+What they mean: Design a simple BlackJack card game
+
+
+
+
+
+Note: Interviewers assume that most people know BlackJack, and hence they easily ask this question. 
+
+
+
+Air Traffic Control (Free Form)
+------------------------------------------
+What they say: Design an Air Traffic Control System
+
+
+
+What they mean: Imagine a simple ATC (e.g. consider only Departures for now and then extend to take-offs) and design software that enables that. You are not designing the artificial intelligence decision making. You're designing the framework.
+
+Parking Lot (Free Form)
+------------------------------------------
+Design/Model a parking lot
+
+
+
+What that typically means: Model a parking lot and design a REST API for a company that operates a parking lot. Client of that software is "UI" that other colleagues of yours will build on top of your API.  
+
+
+
+As usual, key is to start simple. Assume a single-story parking lot for cars only. Once you get the basic structure going, then add more vehicle types (e.g. Trucks, RVs (takes up multiple spots), bikes) differentiation (e.g. SUV, Compact) and floors. Then add queues, time limits and payments. And then think about multiple parking lots (will need you to add an admin layer).
+
+
+
+You can also harness the power of tech and make it easier for people to park and exit. E.g. assign a parking spot and put it back into the pool once a car exits.
+
+
+
+Deliverables:
+
+
+
+1. A class diagram, showing relationships with each other where appropriate. Classes should show state and methods. Use any convenient notation. UML is more widely known.
+
+2. Main() method, showing how you'll initialize your system and start using it.
+
+3. Identify the design pattern.
+
+4. A REST API
+
+
+
+Extension-1: Can your model be used to implement software for a 3-car garage?
+
+
+
+Extension-2: What are the right data-structures to use, if you want to find an empty spot in constant time?
+
+Elevator System (Free Form)
+------------------------------------------
+Design an elevator system for a building with multiple elevators.
+
+
+
+What that typically means: Design an API to operate an elevator. Your API will be used by the “UI” that could be either the elevator itself, or could be an app.
+
+
+
+1. Need to queue elevator call requests
+
+2. Need to queue floor requests within the elevator
+
+2.1 Elevator needs to keep the floor requests in ascending order if going UP
+
+2.2 Elevator needs to keep the floor requests in descending order if going DOWN
+
+3. Strategy for assigning an elevator for a given call request
+
+4. Elevators can be in maintenance or out-of-order states
+
+5. Elevator doors can ONLY be open if the elevator is standing and it is on a particular floor
+
+6. Elevator must be able to take call requests while moving and must be able to stop at the floors even if the requests came late but elevator didn't pass the floor yet
+
+
+
+Deliverables:
+
+
+
+1. A class diagram, showing relationships with each other where appropriate. Classes should show state and methods. Use any convenient notation. UML is more widely known.
+
+2. Main() method, showing how you'll initialize your system and start using it.
+
+3. Identify the design pattern.
+
+4. A REST API

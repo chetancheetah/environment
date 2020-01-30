@@ -1,0 +1,227 @@
+Rate Limiter (Free Form)
+---------------------------
+Design a rate limiter for concurrent API requests that can be used for throttling API requests from any given API client based on configured quotas and security policy.
+
+
+
+(Question is purposely vague. Assume a basic rate limiting policy, like token bucket. It is expected that you’d write code for this question when asked in an interview. e.g.: http://stackoverflow.com/questions/667508/whats-a-good-rate-limiting-algorithm)
+
+
+Thread Pool (Free Form)
+---------------------------
+Brian Goetz is a celebrity engineer. He is the Java language architect, currently at Oracle (via Sun). His book ‘Java Concurrency in practice’ is the defacto guide to concurrency, world over.
+
+
+
+In 2002, (well before the book was published) he had authored an article [Included here] on the topic of Thread Pools. At the time, Thread pooling was a relatively new concept and like he mentions, was one of the most frequently asked question on discussion forums.
+
+
+
+Since then, thread pools have long been abstracted out as part of different libraries. Every serious language has a library for it now. These libraries let you (the developer) control the thread pool by way of different parameters they expose. In practice, after you hit a certain scale, you need to tweak those parameters for optimal performance.
+
+
+
+In an interview, it is common to assume that you know what thread pools are and how they work, so that you can own end to end performance of your application. Hence the question:
+
+
+
+Vague problem statement in an interview: Create a thread pool [and worker queues].
+
+
+
+Please refer to the article linked above, understand what thread pools are, and implement them.
+
+
+
+Thread Pools and Work Queues.pdf
+
+https://drive.google.com/file/d/1K5BpFVShu74G19ZkECV96fgHAqRhic_E/view?usp=sharing
+
+Odd Even (Free Form)
+---------------------------
+
+Create two threads. Let one thread print Odd numbers and the other thread print Even numbers.
+
+
+
+Assume natural numbers (1, 2, 3... ), from 1 thru 100.
+Numbers must be printed in their natural order i.e. 1 and then 2 and then 3 etc.
+
+
+Read: http://stackoverflow.com/a/30809023/327310
+
+
+Dictionary (Free Form)
+---------------------------
+Design an “efficient” simple dictionary that can be accessed by multiple concurrent users and editors simultaneously. While the users are looking up for definitions for specific words, the editors are either creating definitions for new words, or updating the ones for existing words. There are many more users (readers) of the dictionary than there are editors.
+
+Read Write Map (Free Form)
+---------------------------
+Implement a “Read-Write Map” leveraging an existing reentrant Read-Write lock so that it can be shared safely by multiple readers and writers, and yet prevent reader-writer or writer-writer conflicts.
+
+
+
+Note: Mutual exclusion is a conservative locking strategy that prevents writer-writer and writer-reader overlap, but it also prevents reader-reader overlap. In many cases, data structures are “read-mostly”; in these cases, multiple readers should be able to access the data structure at once. This is what read-write locks allow: a resource can be accessed by multiple readers or a single writer at a time, but not both.
+
+
+Request Dispatcher (Free Form)
+---------------------------
+Design a request dispatcher for a web-server that accepts and processes incoming web requests concurrently and responds synchronously.
+
+
+
+Secondary concern: How can this design be modified to support asynchronous response?
+
+
+
+(Question is purposely vague. Make your best assumptions, keeping in mind this is an interview question)
+
+
+
+Concurrent Hashmap (Free Form)
+---------------------------
+Implement a concurrent hash-based map using lock striping.
+
+
+
+Note: Apply a locking strategy that offers better concurrency and scalability; instead of synchronizing every method on a common lock, restricting access to a single thread at a time, utilize a finer-grained locking mechanism called lock striping to allow a greater degree of shared access.
+
+
+
+Timer (Free Form)
+---------------------------
+Design a “timer” scheduler that can take a number of specified tasks and schedule them for execution after specified time-interval delay. What would be some of the design considerations to ensure efficiency, resiliency and support for monitoring progress? 
+
+
+
+It is very easy to imagine a complex scheduling system when solving this problem (think Cron + Stopwatch + Timer). But keep it limited in scope. 
+
+
+
+Bounded Hash Set (Free Form)
+---------------------------
+Use a semaphore to implement a “bounded” hash set (or any collection, for that matter), a set that provides additional semantics of a blocking bounded collection to the underlying set. 
+
+
+
+Note: Here, we need to use a Semaphore to turn the underlying collection into a blocking bounded collection. The semaphore is initialized to the desired “bound” for the collection.
+
+
+
+The underlying Set implementation knows nothing about the bound.
+
+
+Lock Order Deadlock (Free Form)
+---------------------------
+Demonstrate a lock-order deadlock using a code example and then induce simple lock ordering to avoid the deadlock.
+
+
+
+Note: Think of threads as the nodes of a directed graph whose edges represent the relation “Thread A is waiting for a resource held by thread B”. If this graph is cyclical, there is a deadlock. This is likely to happen if two threads attempt to acquire the same set of locks in a different order.
+
+
+
+Implement Thread Local Storage (Free Form)
+---------------------------
+You are working on a compiler team. You are tasked with providing an api for the compiler to implement thread-local storage. Thread-local storage is equivalent to a per-thread static variable (see https://en.wikipedia.org/wiki/Thread-local_storage for more detailed explanation). 
+
+
+
+You must implement the following API for the compiler. NOTE this api is for the compiler's use, not the end user. That is why it is simpler than the standard TLS interface.
+
+
+
+// Called once before any calls to GetThreadLocalStorage on any thread.
+
+
+
+void InitThreadLocalStorage()
+
+
+
+// id is a process-wide id to reference the storage. If the id does not exist,
+
+
+
+// the storage is allocated to size cb. If id exists, return the corresponding
+
+
+
+// thread-local variable.
+
+
+
+void* GetThreadLocalStorage(int id, size_t cb)
+
+
+
+// remove the storage allocated for the given id.
+
+
+
+void RemoveThreadLocalStorage(int id)
+
+Implement Fair Thread Scheduling (Free Form)
+---------------------------
+Your legacy code requires fair scheduling. You used to use the ReentrantLock with the fair schedule flag set to true. Legal just informed you that there was a patent case that was just won and all existing such implementations are patented. They need you to re-implement ReentrantLock using just the standard (unfair) mutex.
+
+
+
+Create a class LegalReentrantLock with implements fair scheduling using mutex.
+
+
+
+Implement a dispatch execution class with sub-system locks (Free Form)
+---------------------------
+You have a dispatch queue. This is a standard producer-consumer concurrent queue. All tasks in the queue have a Task interface (see below). The tasks have a LocksNeeded flag. There are three lock flags [FileSystem, Database, Model]. When a consumer thread requests a task to execute, the dispatch system will ensure the thread has the locks requested in the LocksNeeded flag set. Ensure that the system is efficient and free of deadlocks.
+
+
+
+#define FLAGS_NO_LOCK 0
+
+
+
+#define FLAGS_FILESYSTEM_LOCK 1
+
+
+
+#define FLAGS_DATABASE_LOCK 2
+
+
+
+#define FLAGS_MODEL_LOCK 4
+
+
+
+interface Task
+
+
+
+{
+
+
+
+int GetFlags();
+
+
+
+void Run();
+
+
+
+}
+
+Implement a connection pool (Free Form)
+---------------------------
+Implement a simple and lightweight connection pool.
+
+
+
+(If you're using Java, then you can make use of ConcurrentLinkedQueue)
+
+
+
+[e.g. http://www.javacodegeeks.com/2013/08/simple-and-lightweight-pool-implementation.html]
+
+
+
