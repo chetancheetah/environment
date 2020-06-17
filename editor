@@ -1,0 +1,342 @@
+;; Emacs settings
+
+;;(setq cscope-base-dir-place "~/w/junos-2008")
+
+(defun append-path ( my-path )
+  (setq load-path (append load-path (list (expand-file-name my-path)))))
+
+(append-path "~cmurthy/.emacs-lisp-packages")
+
+
+(require 'diff-mode-)
+
+;;; automatically start modes based on filename extension
+(setq auto-mode-alist
+      (append (list (cons "\\.pl$" 'perl-mode))
+	      auto-mode-alist))
+(setq auto-mode-alist
+      (append (list (cons "\\.qel$" 'tcl-mode))
+	      auto-mode-alist))
+(setq auto-mode-alist
+      (append (list (cons "\\.c$" 'c-mode))
+	      auto-mode-alist))
+(setq auto-mode-alist
+      (append (list (cons "\\.cc$" 'c-mode))
+	      auto-mode-alist))
+(setq auto-mode-alist
+      (append (list (cons "\\.h$" 'c-mode))
+	      auto-mode-alist))
+(setq auto-mode-alist
+      (append (list (cons "\\.pp$" 'c-mode))
+	      auto-mode-alist))
+
+
+(require 'python-mode)
+(setq auto-mode-alist
+      (append (list (cons "\\.py$" 'python-mode))
+	      auto-mode-alist))
+
+;;; default colors
+;;; (see .Xdefaults for popup menu and menubar settings)
+(set-foreground-color "white")
+(set-background-color "dark slate gray")
+
+;;; custom keymap
+
+
+(fset 'no-confirm-kill-buffer
+      [?\C-x ?k return])
+
+(fset 'open-router-signup
+      [?\C-x ?\C-f ?~ ?/ ?r ?o ?u ?t ?e ?r ?- ?s ?i ?g ?n ?u ?p ?- ?s ?h ?e ?e ?t return])
+
+
+
+(fset 'no-confirm-revert-buffer
+   [?\M-x ?r ?e ?v ?e ?r ?t ?- ?b ?u ?f ?f ?e ?r return ?y ?e ?s return])
+
+;;; miscellaneous settings
+
+(setq-default compilation-window-height 20)
+(auto-compression-mode 1)
+(setq-default show-paren-mode t)
+(add-hook 'c-mode-hook '(lambda () (show-paren-mode 1)))
+(iswitchb-mode 1)
+(tool-bar-mode 0)
+;; Font lock mode settings
+(setq-default font-lock-mode t)
+(setq font-lock-face-attributes
+      '((font-lock-comment-face "lime green")
+	)
+)
+(add-hook 'c-mode-hook '(lambda () (font-lock-mode 1)))
+(add-hook 'perl-mode-hook '(lambda () (font-lock-mode 1)))
+(add-hook 'emacs-lisp-mode-hook '(lambda () (font-lock-mode 1)))
+(add-hook 'tcl-mode-hook '(lambda () (font-lock-mode 1)))
+(add-hook 'Shell-script-mode-hook '(lambda () (font-lock-mode 1)))
+(add-hook 'python-mode-hook '(lambda () (font-lock-mode 1)))
+(add-hook 'diff-mode-hook '(lambda () (font-lock-mode 1)))
+
+(defun my-c-mode-common-hook ()
+  (c-set-offset 'defun-block-intro' 4)
+  (c-set-offset 'statement-block-intro' 4)
+  (hs-minor-mode 1)
+)
+
+(add-hook 'c-mode-hook 'my-c-mode-common-hook)
+
+(defun my-python-mode-common-hook ()
+  (hs-minor-mode 1)
+)
+
+(add-hook 'python-mode-hook 'my-python-mode-common-hook)
+
+
+;;;;;;; Custom macros for Juniper development
+
+(fset 'wipe-buffer
+   [?\C-  ?\C-[ ?< ?\C-[ ?x ?c ?l ?i ?p ?b ?o ?a ?r ?d ?- ?k ?i ?l ?l ?- ?r ?e ?g ?i ?o ?n ?\C-m ?\C-m])
+
+
+(setq c-default-style "linux"  c-basic-offset 4)
+
+(setq initial-scratch-message nil)
+(setq-default indent-tabs-mode nil)
+(setq tab-width 4)
+
+(require 'xcscope)
+
+
+ ;;; Cscope stuff
+
+(define-key esc-map "." 'cscope-find-global-definition)
+(autoload 'cscope-find-all "cscope"
+   "Query cscope for the definitions of all functions and C++ classes." t)
+ (autoload 'cscope-find-c-symbol "cscope"
+   "Query cscope for the whereabouts of the given symbol." t)
+ (autoload 'cscope-find-egrep-pattern "cscope"
+   "Query cscope for the whereabouts of the given egrep pattern." t)
+ (autoload 'cscope-find-file "cscope"
+   "Query cscope for the whereabouts of the given file." t)
+ (autoload 'cscope-find-files-including "cscope"
+   "Query cscope for the files including a given file." t)
+ (autoload 'cscope-find-functions-called "cscope"
+   "Query cscope for the names of functions called by a function." t)
+ (autoload 'cscope-find-functions-calling "cscope"
+   "Query cscope for the names of functions calling a function." t)
+ (autoload 'cscope-find-global-definition "cscope"
+   "Query cscope for the global definition of the given symbol." t)
+ (autoload 'cscope-find-grep-pattern "cscope"
+   "Query cscope for the whereabouts of the given grep pattern." t)
+ (autoload 'cscope-find-text-string "cscope"
+   "Query cscope for the whereabouts of the given text string." t)
+
+ ;;; Setup a post-query hook to sort the results.  Makes it easier to
+ ;;; read.
+
+ (defun cscope-sort-lines ()
+
+   ; Wait for all output from cscope to arrive
+   (while
+       (not (re-search-forward "^>>" nil 1))
+     (beginning-of-line)
+     (accept-process-output))
+
+   (goto-char (point-min))
+   (forward-line 2)
+   (delete-region (point-min) (point))
+
+   (goto-char (point-max))
+   (beginning-of-line)
+   (delete-region (point) (point-max))
+
+   (sort-lines nil (point-min) (point-max))
+   (goto-char (point-min))
+  )
+
+ (setq cscope-query-hook '(cscope-sort-lines))
+
+
+
+;(set-frame-font "10x20" )
+
+;(autoload 'cscope-bind-keys \"cscope\" nil t)
+
+;;;(defun wjc:c-mode-hook () ;;\"my C mode hook\"
+  ;; only bother doing bindings first time ... they'll stick
+  ;;;(or (where-is-internal 'cscope-find-c-symbol (current-local-map))
+     ;;; (cscope-bind-keys))
+  ;; (and (boundp 'cscope-blurb) (makunbound 'cscope-blurb))
+  ;;(local-set-key \"\\M-?\" 'cscope-find-c-symbol))
+;;;)
+
+;(add-hook 'c-mode-hook '(lambda () (wjc:c-mode-hook)))
+(require 'calculator)
+
+(which-func-mode 1)
+(column-number-mode 1)
+
+
+(require 'linum)
+(setq linum-format "%d ")
+
+(require 'highlight-regexp)
+(require 'highlight-symbol)
+
+(setq global-hi-lock-mode 1)
+
+(setq linumface "variable-pitch")
+(setq linumfacecolor ":background gray")
+(set-face-attribute linumface linumfacecolor)
+
+;(set-face-attribute 'default nil :height 220)
+
+(if (> emacs-major-version 20)
+    (progn (set-face-background 'isearch-lazy-highlight-face "DimGray")
+	   (set-face-foreground 'isearch-lazy-highlight-face "white")))
+
+(add-hook 'c-mode-common-hook '(lambda () (flyspell-prog-mode)))
+
+
+(set-cursor-color "yellow")
+;(transient-mark-mode t)
+
+(setq cscope-do-not-update-database t)
+
+(defun revert-buffer-no-confirm ()
+      "Revert buffer without confirmation."
+      (interactive) (revert-buffer t t))
+
+(defun cplink ()
+  "breaking link."
+  (interactive)
+  (shell-command ( format  "source ~/.bashrc_USER; cplink %s" (shell-quote-argument buffer-file-name)))
+  (revert-buffer-no-confirm))
+
+
+
+(defun whack-whitespace ()
+      "Delete all white space from point to the next word."
+      (interactive "*")
+      (delete-region (point) (progn (skip-chars-forward " \t") (point))))
+
+
+
+;; disable line wrap
+(setq default-truncate-lines t)
+;; make side by side buffers function the same as the main window
+;(setq truncate-partial-width-windows nil)
+
+(fset 'yank-block
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([67108896 134217734 S-delete home 67108896 down S-delete] 0 "%d")) arg)))
+
+(global-set-key (kbd "C-c y") 'yank-block)
+
+
+
+(defun isearch-yank-symbol ()
+  "*Put symbol at current point into search string."
+  (interactive)
+  (let ((sym (symbol-at-point)))
+    (if sym
+        (progn
+          (setq isearch-regexp t
+                isearch-string (concat "\\_<" (regexp-quote (symbol-name sym)) "\\_>")
+                isearch-message (mapconcat 'isearch-text-char-description isearch-string "")
+                isearch-yank-flag t))
+      (ding)))
+  (isearch-search-and-update))
+
+
+(defun cscope-find-functions-calling-this-function-no-prompting ()
+  "Display functions calling a function without prompting."
+  (interactive)
+  (let ((symbol (cscope-extract-symbol-at-cursor nil))
+        (cscope-adjust t) )	 ;; Use fuzzy matching.
+    (setq cscope-symbol symbol)
+    (cscope-call (format "Finding functions calling: %s" symbol)
+		 (list "-3" symbol) nil 'cscope-process-filter
+		 'cscope-process-sentinel)
+    ))
+
+
+(setq backup-directory-alist '(("." . "~/.emacs.backup")))
+(setq backup-by-copying t)
+
+(global-set-key [f1] 'shell)
+(global-set-key [f2] 'no-confirm-kill-buffer)
+(global-set-key [f3] 'hs-hide-all)
+(global-set-key [f4] 'hs-show-all)
+(global-set-key [f5] 'goto-line)
+(global-set-key [f6] 'highlight-symbol-at-point)
+(global-set-key [f7] 'bury-buffer)
+(global-set-key [f8] 'shell)
+(global-set-key [f9] 'no-confirm-revert-buffer)
+(global-set-key [f10] 'compile)
+(global-set-key [f11] 'call-last-kbd-macro)
+(global-set-key [f12] 'cplink)
+(global-set-key [delete] 'delete-char)
+(global-set-key [C-backspace]  'backward-kill-word)
+(global-set-key [?\M-[] 'iswitchb-next-match)
+(global-set-key [?\C-q] 'wipe-buffer)
+(global-set-key [C-return] 'calculator)
+(global-set-key [C-Space] 'set-mark-command)
+(global-set-key (kbd "C-l") 'linum-mode)
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "C-c r") 'whack-whitespace)
+(global-set-key (kbd "C--") 'hs-toggle-hiding)
+(global-set-key (kbd "C-=") 'speedbar)
+;(global-set-key (kbd "M-,") 'backward-sexp)
+;(global-set-key (kbd "M-.") 'forward-sexp)
+(global-set-key (kbd "C-<down>") 'highlight-symbol-next)
+(global-set-key (kbd "C-<up>") 'highlight-symbol-prev)
+(global-set-key (kbd "C-u") 'highlight-symbol-remove-all)
+(global-set-key (kbd "M-<down>") 'cscope-find-global-definition-no-prompting)
+(global-set-key (kbd "M-<up>") 'cscope-find-functions-calling-this-function-no-prompting)
+(global-set-key (kbd "M-<left>") 'cscope-prev-symbol)
+(global-set-key (kbd "M-<right>") 'cscope-next-symbol)
+(global-set-key (kbd "C-c w") 'whitespace-mode)
+(global-set-key (kbd "C-c t") 'delete-trailing-whitespace)
+(global-set-key (kbd "C-b") 'scroll-down-command)
+(global-set-key (kbd "C-.") 'dabbrev-expand)
+
+;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+; start package.el with emacs
+;(if (> emacs-major-version 23)
+;    (progn (require 'package)
+;           (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+;           (package-initialize)
+;           (require 'auto-complete-config)
+;           (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+;           (ac-config-default)
+;           (require 'yasnippet)
+;           (yas-global-mode 1)
+;           (define-key global-map (kbd "C-c ;") 'iedit-mode)))
+;
+
+(require 'fill-column-indicator)
+(setq fci-rule-width 1)
+(setq fci-rule-color "yellow")
+(setq fci-rule-column 80)
+
+;; turn on Semantic
+;(semantic-mode 1)
+;; let's define a function which adds semantic as a suggestion backend to auto complete
+;; and hook this function to c-mode-common-hook
+;(defun my:add-semantic-to-autocomplete()
+;  (add-to-list 'ac-sources 'ac-source-semantic)
+;)
+;(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
+;; turn on ede mode
+;(global-ede-mode 1)
+;; create a project for our program.
+;(ede-cpp-root-project "my project" :file "/localetna/chemurth/project/src/a.cpp"
+;		      :include-path '("/localetna/chemurth/project/include"))
+;; you can use system-include-path for setting up the system header file locations.
+;; turn on automatic reparsing of open buffers in semantic
+;(global-semantic-idle-scheduler-mode 1)
+
+;; Disable git backend to speed up sshfs file load among other things
+(setq vc-handled-backends (quote (Git)))
+
